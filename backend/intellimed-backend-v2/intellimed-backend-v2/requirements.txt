@@ -1,0 +1,29 @@
+# Web
+flask==3.0.3
+flask-cors==4.0.1
+python-dotenv==1.0.1
+gunicorn==22.0.0
+
+# Image handling
+Pillow==10.4.0
+numpy==1.26.4
+google-genai
+
+# ML — supports both .keras and .pickle
+# tensorflow is optional — only needed if you use .keras models
+# Uncomment when you have your weights ready:
+# tensorflow==2.16.1
+# scikit-learn==1.5.1    # for .pickle models
+
+# Document parsing (RAG upload)
+PyMuPDF==1.24.9        # PDF
+python-docx==1.1.2     # .docx
+pytesseract==0.3.13    # OCR fallback on scanned pages
+
+# RAG — vector store + Gemini
+langchain==0.2.14
+langchain-community==0.2.12
+langchain-google-genai==1.0.8
+google-generativeai==0.7.2
+faiss-cpu==1.8.0.post1   # local vector store — swap for chromadb if you want persistence
+chromadb
