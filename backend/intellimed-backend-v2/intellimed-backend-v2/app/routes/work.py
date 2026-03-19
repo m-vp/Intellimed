@@ -1,5 +1,7 @@
+from flask import Blueprint, jsonify
+
 work_bp = Blueprint("work", __name__)
 
-@work_bp.post("/work")
+@work_bp.get("/work")
 def work():
-    return true
+    return jsonify({"status": "success"}), 200
