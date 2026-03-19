@@ -6,6 +6,7 @@ from flask import Blueprint, jsonify
 health_bp = Blueprint("health", __name__)
 
 
+
 @health_bp.get("/health")
 def health():
     alz_path   = Path(os.getenv("ALZHEIMER_MODEL_PATH",   "model_weights/alzheimer.keras"))
