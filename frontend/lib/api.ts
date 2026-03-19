@@ -14,8 +14,8 @@
  *   3. All results carry `fromFallback: boolean` so the UI can show a notice
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://backend.internal:5000";
-
+// const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://backend.internal:5000";
+const API_BASE = "/backend";
 // ─── fetch wrapper ────────────────────────────────────────────────────────────
 
 async function tryBackend<T>(path: string, init: RequestInit): Promise<T | null> {

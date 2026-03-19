@@ -1,12 +1,6 @@
 import requests
 
-url = "http://20.166.126.59:5000/api/work"
+response = requests.get("http://104.46.15.68:5000/work")
 
-try:
-    response = requests.post(url)
-
-    print("Status Code:", response.status_code)
-    print("Response Body:", response.text)
-
-except requests.exceptions.RequestException as e:
-    print("Error:", e)
+print(response.status_code)
+print(response.text)
