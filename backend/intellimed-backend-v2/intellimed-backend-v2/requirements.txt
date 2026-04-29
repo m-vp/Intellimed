@@ -12,7 +12,7 @@ google-genai
 # ML — supports both .keras and .pickle
 # tensorflow is optional — only needed if you use .keras models
 # Uncomment when you have your weights ready:
-# tensorflow==2.16.1
+tensorflow==2.16.1
 # scikit-learn==1.5.1    # for .pickle models
 
 # Document parsing (RAG upload)

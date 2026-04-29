@@ -43,11 +43,17 @@ export type AlzheimerLabel =
   | "NonDemented"
   | "VeryMildDemented";
 
+// export interface AlzheimerResult {
+//   prediction:  AlzheimerLabel;
+//   confidence:  number;                           // 0–100
+//   breakdown:   { label: string; score: number }[]; // 4 items
+//   is_dummy:    boolean;
+//   fromFallback?: boolean;
+// }
+
 export interface AlzheimerResult {
-  prediction:  AlzheimerLabel;
-  confidence:  number;                           // 0–100
-  breakdown:   { label: string; score: number }[]; // 4 items
-  is_dummy:    boolean;
+  prediction:   AlzheimerLabel;
+  is_dummy:     boolean;
   fromFallback?: boolean;
 }
 
@@ -71,43 +77,50 @@ export interface RagQueryResult {
 
 // ─── Fallback data ────────────────────────────────────────────────────────────
 
+// const ALZ_FALLBACKS: AlzheimerResult[] = [
+//   {
+//     prediction: "NonDemented", confidence: 94.2, is_dummy: true,
+//     breakdown: [
+//       { label: "MildDemented",     score: 2.1 },
+//       { label: "ModerateDemented", score: 1.4 },
+//       { label: "NonDemented",      score: 94.2 },
+//       { label: "VeryMildDemented", score: 2.3 },
+//     ],
+//   },
+//   {
+//     prediction: "MildDemented", confidence: 81.7, is_dummy: true,
+//     breakdown: [
+//       { label: "MildDemented",     score: 81.7 },
+//       { label: "ModerateDemented", score: 4.1 },
+//       { label: "NonDemented",      score: 9.6 },
+//       { label: "VeryMildDemented", score: 4.6 },
+//     ],
+//   },
+//   {
+//     prediction: "ModerateDemented", confidence: 88.3, is_dummy: true,
+//     breakdown: [
+//       { label: "MildDemented",     score: 5.2 },
+//       { label: "ModerateDemented", score: 88.3 },
+//       { label: "NonDemented",      score: 3.1 },
+//       { label: "VeryMildDemented", score: 3.4 },
+//     ],
+//   },
+//   {
+//     prediction: "VeryMildDemented", confidence: 76.5, is_dummy: true,
+//     breakdown: [
+//       { label: "MildDemented",     score: 14.2 },
+//       { label: "ModerateDemented", score: 2.8 },
+//       { label: "NonDemented",      score: 6.5 },
+//       { label: "VeryMildDemented", score: 76.5 },
+//     ],
+//   },
+// ];
+
 const ALZ_FALLBACKS: AlzheimerResult[] = [
-  {
-    prediction: "NonDemented", confidence: 94.2, is_dummy: true,
-    breakdown: [
-      { label: "MildDemented",     score: 2.1 },
-      { label: "ModerateDemented", score: 1.4 },
-      { label: "NonDemented",      score: 94.2 },
-      { label: "VeryMildDemented", score: 2.3 },
-    ],
-  },
-  {
-    prediction: "MildDemented", confidence: 81.7, is_dummy: true,
-    breakdown: [
-      { label: "MildDemented",     score: 81.7 },
-      { label: "ModerateDemented", score: 4.1 },
-      { label: "NonDemented",      score: 9.6 },
-      { label: "VeryMildDemented", score: 4.6 },
-    ],
-  },
-  {
-    prediction: "ModerateDemented", confidence: 88.3, is_dummy: true,
-    breakdown: [
-      { label: "MildDemented",     score: 5.2 },
-      { label: "ModerateDemented", score: 88.3 },
-      { label: "NonDemented",      score: 3.1 },
-      { label: "VeryMildDemented", score: 3.4 },
-    ],
-  },
-  {
-    prediction: "VeryMildDemented", confidence: 76.5, is_dummy: true,
-    breakdown: [
-      { label: "MildDemented",     score: 14.2 },
-      { label: "ModerateDemented", score: 2.8 },
-      { label: "NonDemented",      score: 6.5 },
-      { label: "VeryMildDemented", score: 76.5 },
-    ],
-  },
+  { prediction: "NonDemented",      is_dummy: true },
+  { prediction: "MildDemented",     is_dummy: true },
+  { prediction: "ModerateDemented", is_dummy: true },
+  { prediction: "VeryMildDemented", is_dummy: true },
 ];
 
 const TUMOR_FALLBACKS: TumorResult[] = [

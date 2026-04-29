@@ -123,7 +123,7 @@ export default function AlzheimerPage() {
 
                 <div style={{ display: "flex", alignItems: "flex-end", gap: 10, marginBottom: 14 }}>
                   <h2 className="font-syne" style={{ fontSize: 24, fontWeight: 800, color: meta.color }}>{meta.display}</h2>
-                  <div className="font-mono" style={{ fontSize: 26, fontWeight: 300, color: meta.color, opacity: .75, marginBottom: 1 }}>{result.confidence.toFixed(1)}%</div>
+                    {/* <div className="font-mono" style={{ fontSize: 26, fontWeight: 300, color: meta.color, opacity: .75, marginBottom: 1 }}>{result.confidence.toFixed(1)}%</div> */}
                 </div>
 
                 {/* Stage strip */}
@@ -137,28 +137,28 @@ export default function AlzheimerPage() {
                 </div>
 
                 <div className="bar-track">
-                  <div className="bar-fill" style={{ width: `${result.confidence}%`, background: `linear-gradient(90deg,${meta.color}60,${meta.color})` }} />
+                {/*<div className="bar-fill" style={{ width: `${result.confidence}%`, background: `linear-gradient(90deg,${meta.color}60,${meta.color})` }} /> */}  
                 </div>
               </div>
 
-              {/* Breakdown */}
-              <div className="card" style={{ padding: 22 }}>
+                {/* Breakdown */}
+                {/* <div className="card" style={{ padding: 22 }}>
                 <div className="font-mono" style={{ fontSize: 9, color: "var(--text-3)", letterSpacing: ".1em", marginBottom: 14 }}>CLASS BREAKDOWN</div>
                 {result.breakdown.map((item, i) => {
                   const m = META[item.label as AlzheimerLabel];
                   return (
-                    <div key={item.label} style={{ marginBottom: 11 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
-                        <span style={{ fontSize: 13, color: "var(--text-2)" }}>{m?.display ?? item.label}</span>
-                        <span className="font-mono" style={{ fontSize: 11, color: m?.color ?? "var(--cyan)" }}>{item.score.toFixed(1)}%</span>
-                      </div>
-                      <div className="bar-track">
-                        <div className="bar-fill" style={{ width: `${item.score}%`, background: `linear-gradient(90deg,${(m?.color ?? "#00d4ff")}55,${m?.color ?? "#00d4ff"})` }} />
-                      </div>
+                  <div key={item.label} style={{ marginBottom: 11 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5 }}>
+                    <span style={{ fontSize: 13, color: "var(--text-2)" }}>{m?.display ?? item.label}</span>
+                    <span className="font-mono" style={{ fontSize: 11, color: m?.color ?? "var(--cyan)" }}>{item.score.toFixed(1)}%</span>
                     </div>
+                    <div className="bar-track">
+                    <div className="bar-fill" style={{ width: `${item.score}%`, background: `linear-gradient(90deg,${(m?.color ?? "#00d4ff")}55,${m?.color ?? "#00d4ff"})` }} />
+                    </div>
+                  </div>
                   );
                 })}
-              </div>
+                </div> */}
 
               {/* Recommendation */}
               <div style={{ padding: 18, background: "rgba(245,158,11,.05)", border: "1px solid rgba(245,158,11,.14)", borderRadius: 12 }}>

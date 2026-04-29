@@ -6,6 +6,13 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MODEL_WEIGHTS_DIR = os.path.join(BASE_DIR, "model_weights")
+
+ALZHEIMER_CONFIG = {
+    "model_path": os.path.join(MODEL_WEIGHTS_DIR, "alzheimer_cnn.keras"),
+    "class_indices_path": os.path.join(BASE_DIR, "alzheimer_class_indices.json"),
+    "img_size": (128, 128),
+}
 
 class Config:
     # Flask
