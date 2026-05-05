@@ -30,7 +30,7 @@ const nextConfig = {
     return [
       {
         source: "/backend/:path*",
-        destination: "http://localhost:5001/:path*",
+        destination: "http://localhost:5000/:path*",
       },
     ];
   },
