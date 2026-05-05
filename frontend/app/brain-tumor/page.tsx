@@ -3,7 +3,14 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import UploadZone from "@/components/UploadZone";
 import FallbackBadge from "@/components/FallbackBadge";
-import { predictTumor, type TumorResult } from "@/lib/api";
+import { predictTumor, type TumorResult, type TumorLabel } from "@/lib/api";
+
+const META: Record<TumorLabel, { color: string; raw: string; display: string; detected: boolean }> = {
+  glioma:      { color: "var(--red)",    raw: "#ff4d6a", display: "Glioma",      detected: true  },
+  meningioma:  { color: "var(--red)",    raw: "#ff4d6a", display: "Meningioma",  detected: true  },
+  pituitary:   { color: "var(--amber)",  raw: "#f59e0b", display: "Pituitary",   detected: true  },
+  notumor:     { color: "var(--teal)",   raw: "#00b4a0", display: "No Tumor",    detected: false },
+};
 
 export default function BrainTumorPage() {
   const [file, setFile]         = useState<File | null>(null);
@@ -20,13 +27,7 @@ export default function BrainTumorPage() {
     setResult(data); setLoading(false);
   };
 
-  const accentColor = result
-    ? result.detected ? "var(--red)" : "var(--teal)"
-    : "var(--red)";
-
-  const accentRaw = result
-    ? result.detected ? "#ff4d6a" : "#00b4a0"
-    : "#ff4d6a";
+  const meta = result ? META[result.prediction] : null;
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -48,7 +49,7 @@ export default function BrainTumorPage() {
             </div>
           </div>
           <p style={{ color: "var(--text-2)", fontSize: 14, maxWidth: 580, lineHeight: 1.75 }}>
-            Upload a brain MRI scan. The model returns a binary result — tumor detected or not — with a confidence score.
+            Upload a brain MRI scan. The model classifies it as glioma, meningioma, pituitary tumor, or no tumor.
           </p>
         </div>
 
@@ -69,16 +70,14 @@ export default function BrainTumorPage() {
               accentColor="var(--red)"
             />
 
-            {/* What the model outputs */}
+            {/* Legend */}
             <div style={{ marginTop: 18, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 7 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.04)", borderRadius: 8 }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--red)" }} />
-                <span style={{ fontSize: 12, color: "var(--text-2)" }}>Tumor Detected</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.04)", borderRadius: 8 }}>
-                <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--teal)" }} />
-                <span style={{ fontSize: 12, color: "var(--text-2)" }}>No Tumor</span>
-              </div>
+              {(Object.entries(META) as [TumorLabel, typeof META[TumorLabel]][]).map(([key, m]) => (
+                <div key={key} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.04)", borderRadius: 8 }}>
+                  <div style={{ width: 7, height: 7, borderRadius: "50%", background: m.raw }} />
+                  <span style={{ fontSize: 12, color: "var(--text-2)" }}>{m.display}</span>
+                </div>
+              ))}
             </div>
 
             {loading && (
@@ -99,21 +98,21 @@ export default function BrainTumorPage() {
           </div>
 
           {/* ── Result card ── */}
-          {result && (
+          {result && meta && (
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }} className="fade-up">
               {result.fromFallback && <FallbackBadge />}
 
               {/* Big verdict */}
-              <div className="card" style={{ padding: 36, borderColor: `${accentRaw}28`, position: "relative", overflow: "hidden", textAlign: "center" }}>
-                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${accentColor},transparent)` }} />
-                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 50% 30%,${accentRaw}08 0%,transparent 60%)`, pointerEvents: "none" }} />
+              <div className="card" style={{ padding: 36, borderColor: `${meta.raw}28`, position: "relative", overflow: "hidden", textAlign: "center" }}>
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: `linear-gradient(90deg,transparent,${meta.raw},transparent)` }} />
+                <div style={{ position: "absolute", inset: 0, background: `radial-gradient(circle at 50% 30%,${meta.raw}08 0%,transparent 60%)`, pointerEvents: "none" }} />
 
                 {/* Icon */}
-                <div style={{ width: 72, height: 72, borderRadius: "50%", background: `${accentRaw}12`, border: `2px solid ${accentRaw}30`, margin: "0 auto 20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  {result.detected ? (
+                <div style={{ width: 72, height: 72, borderRadius: "50%", background: `${meta.raw}12`, border: `2px solid ${meta.raw}30`, margin: "0 auto 20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  {meta.detected ? (
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                      <circle cx="16" cy="16" r="10" stroke="#ff4d6a" strokeWidth="1.8" fill="rgba(255,77,106,.12)"/>
-                      <circle cx="16" cy="16" r="4" fill="#ff4d6a"/>
+                      <circle cx="16" cy="16" r="10" stroke={meta.raw} strokeWidth="1.8" fill={`${meta.raw}20`}/>
+                      <circle cx="16" cy="16" r="4" fill={meta.raw}/>
                     </svg>
                   ) : (
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -123,36 +122,21 @@ export default function BrainTumorPage() {
                   )}
                 </div>
 
-                <h2 className="font-syne" style={{ fontSize: 28, fontWeight: 800, color: accentColor, marginBottom: 6 }}>
-                  {result.detected ? "Tumor Detected" : "No Tumor Detected"}
+                <h2 className="font-syne" style={{ fontSize: 28, fontWeight: 800, color: meta.color, marginBottom: 6 }}>
+                  {meta.detected ? `${meta.display} Detected` : "No Tumor Detected"}
                 </h2>
 
-                <div style={{ fontSize: 13, color: "var(--text-2)", marginBottom: 24 }}>
-                  {result.detected
-                    ? "The model identified abnormal tissue patterns consistent with a tumor."
+                <div style={{ fontSize: 13, color: "var(--text-2)" }}>
+                  {meta.detected
+                    ? `The model identified tissue patterns consistent with ${meta.display.toLowerCase()}.`
                     : "The model found no significant abnormal tissue patterns."}
-                </div>
-
-                {/* Confidence gauge */}
-                <div style={{ background: "rgba(255,255,255,.03)", borderRadius: 12, padding: "16px 20px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, color: "var(--text-3)" }}>Model Confidence</span>
-                    <span className="font-mono" style={{ fontSize: 18, fontWeight: 400, color: accentColor }}>{result.confidence.toFixed(1)}%</span>
-                  </div>
-                  <div className="bar-track" style={{ height: 8, borderRadius: 4 }}>
-                    <div className="bar-fill" style={{ width: `${result.confidence}%`, background: `linear-gradient(90deg,${accentRaw}60,${accentRaw})`, borderRadius: 4 }} />
-                  </div>
-                  {/* Threshold marker */}
-                  <div style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
-                    <span style={{ fontSize: 10, color: "var(--text-3)" }}>Decision threshold: 50%</span>
-                  </div>
                 </div>
               </div>
 
               {/* is_dummy indicator */}
               {result.is_dummy && !result.fromFallback && (
                 <div style={{ padding: "10px 14px", background: "rgba(99,102,241,.06)", border: "1px solid rgba(99,102,241,.15)", borderRadius: 10 }}>
-                  <span className="font-mono" style={{ fontSize: 10, color: "var(--violet)" }}>⚠ MODEL FILE MISSING — backend returned dummy output. Load your .keras or .pickle file.</span>
+                  <span className="font-mono" style={{ fontSize: 10, color: "var(--violet)" }}>⚠ MODEL FILE MISSING — backend returned dummy output.</span>
                 </div>
               )}
 
@@ -160,7 +144,7 @@ export default function BrainTumorPage() {
               <div style={{ padding: 18, background: "rgba(245,158,11,.05)", border: "1px solid rgba(245,158,11,.14)", borderRadius: 12 }}>
                 <div className="font-mono" style={{ fontSize: 9, color: "var(--amber)", letterSpacing: ".08em", marginBottom: 7 }}>CLINICAL NOTE</div>
                 <p style={{ fontSize: 13, color: "var(--text-2)", lineHeight: 1.7 }}>
-                  {result.detected
+                  {meta.detected
                     ? "This is an AI-assisted screening result only. An urgent consultation with a neurologist or neurosurgeon is strongly recommended. Contrast-enhanced MRI and histopathological evaluation should follow."
                     : "No tumor markers detected in this scan. This result does not rule out all conditions. Continue routine follow-up as clinically advised."}
                 </p>

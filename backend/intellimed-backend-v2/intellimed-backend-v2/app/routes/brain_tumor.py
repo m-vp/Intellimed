@@ -1,17 +1,3 @@
-"""
-POST /api/brain-tumor/predict
-    Body : multipart/form-data { image: <file> }
-
-Response (success):
-    {
-      "detected":   true,    ← bool: is a tumor present?
-      "confidence": 91.3,    ← 0–100, confidence in the detected/not-detected result
-      "is_dummy":   false
-    }
-
-Response (error):
-    { "error": "human-readable message" }
-"""
 import logging
 from flask import Blueprint, request, jsonify
 from app.utils.image_validator import allowed_image, read_and_validate

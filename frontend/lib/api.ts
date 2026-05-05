@@ -57,12 +57,20 @@ export interface AlzheimerResult {
   fromFallback?: boolean;
 }
 
+export type TumorLabel = "glioma" | "meningioma" | "notumor" | "pituitary";
+
 export interface TumorResult {
-  detected:    boolean;
-  confidence:  number;   // 0–100, confidence in the detected/not-detected answer
-  is_dummy:    boolean;
+  prediction:   TumorLabel;
+  is_dummy:     boolean;
   fromFallback?: boolean;
 }
+
+const TUMOR_FALLBACKS: TumorResult[] = [
+  { prediction: "glioma",      is_dummy: true },
+  { prediction: "meningioma",  is_dummy: true },
+  { prediction: "notumor",     is_dummy: true },
+  { prediction: "pituitary",   is_dummy: true },
+];
 
 export interface RagUploadResult {
   session_id:     string;
@@ -123,10 +131,7 @@ const ALZ_FALLBACKS: AlzheimerResult[] = [
   { prediction: "VeryMildDemented", is_dummy: true },
 ];
 
-const TUMOR_FALLBACKS: TumorResult[] = [
-  { detected: true,  confidence: 91.3, is_dummy: true },
-  { detected: false, confidence: 96.7, is_dummy: true },
-];
+
 
 const RAG_FALLBACKS: Record<string, string> = {
   default:

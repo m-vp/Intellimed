@@ -14,6 +14,12 @@ ALZHEIMER_CONFIG = {
     "img_size": (128, 128),
 }
 
+BRAIN_TUMOR_CONFIG = {
+    "model_path": os.path.join(MODEL_WEIGHTS_DIR, "brain_tumor.keras"),
+    "class_labels_path": os.path.join(BASE_DIR, "brain_tumor_labels.json"),
+    "img_size": (240, 240),
+}
+
 class Config:
     # Flask
     SECRET_KEY  = os.getenv("SECRET_KEY", "dev-secret")
